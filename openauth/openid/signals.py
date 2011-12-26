@@ -1,14 +1,15 @@
-from django.contrib.auth.models import get_hexdigest
+from django.contrib.auth.hashers import make_password
 
 import time
 import random
 import utils
 
 
-def generate_hash(sender, instance, **kwargs):       
+def generate_hash(sender, instance, **kwargs):
     if instance.pk is None and instance.identifier:
         instance.timestamp = int(time.time())
-        instance.salt = get_hexdigest('sha1', str(random.random()), str(random.random()))[:10]
+        instance.salt = get_hexdigest(str(random.random()), \
+            salt=str(random.random()), hasher='sha1')[:10]
 
 def make_association(sender, instance, **kwargs):
     if not instance.server_url or not instance.assoc_type:
