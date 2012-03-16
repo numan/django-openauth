@@ -8,7 +8,7 @@ import utils
 def generate_hash(sender, instance, **kwargs):
     if instance.pk is None and instance.identifier:
         instance.timestamp = int(time.time())
-        instance.salt = get_hexdigest(str(random.random()), \
+        instance.salt = make_password(str(random.random()), \
             salt=str(random.random()), hasher='sha1').split("$")[-1][:10]
 
 def make_association(sender, instance, **kwargs):
